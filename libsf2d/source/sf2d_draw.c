@@ -1,5 +1,6 @@
 #include "sf2d.h"
 #include <math.h>
+#include <citro3d.h>
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -8,7 +9,8 @@
 void sf2d_setup_env_internal(const sf2d_vertex_pos_col* vertices) {
 	C3D_TexEnv* env = C3D_GetTexEnv(0);
 	C3D_TexEnvSrc(env, C3D_Both, GPU_PRIMARY_COLOR, 0, 0);
-	C3D_TexEnvOp(env, C3D_Both, 0, 0, 0);
+	/* C3D_TexEnvOpRgb(env, C3D_Both, 0, 0, 0);*/
+	C3D_TexEnvOpRgb(env, 0, 0, 0);
 	C3D_TexEnvFunc(env, C3D_Both, GPU_REPLACE);
 
 	C3D_AttrInfo* attrInfo = C3D_GetAttrInfo();

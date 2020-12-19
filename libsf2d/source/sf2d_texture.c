@@ -2,6 +2,7 @@
 #include <string.h>
 #include <math.h>
 #include "sf2d.h"
+#include <citro3d.h>
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -78,7 +79,7 @@ void sf2d_free_target(sf2d_rendertarget *target)
 void sf2d_clear_target(sf2d_rendertarget *target, u32 color)
 {
 	color = ((color>>24)&0x000000FF) | ((color>>8)&0x0000FF00) | ((color<<8)&0x00FF0000) | ((color<<24)&0xFF000000); // reverse byte order
-	C3D_RenderTargetSetClear(target->target, C3D_CLEAR_ALL, color, 0);
+	C3D_RenderTargetClear(target->target, C3D_CLEAR_ALL, color, 0);
 }
 
 void sf2d_texture_tile32_hardware(sf2d_texture *texture, const void *data, int w, int h)
@@ -92,7 +93,7 @@ void sf2d_texture_tile32_hardware(sf2d_texture *texture, const void *data, int w
 	GSPGPU_FlushDataCache(data, (w*h)<<2);
 	GSPGPU_FlushDataCache(texture->tex.data, texture->tex.size);
 
-	C3D_SafeDisplayTransfer(
+	C3D_SyncDisplayTransfer(
 		(u32*)data,
 		GX_BUFFER_DIM(w, h),
 		(u32*)texture->tex.data,
@@ -144,7 +145,7 @@ void sf2d_bind_texture(const sf2d_texture *texture, GPU_TEXUNIT unit)
 
 	C3D_TexEnv* env = C3D_GetTexEnv(0);
 	C3D_TexEnvSrc(env, C3D_Both, GPU_TEXTURE0, 0, 0);
-	C3D_TexEnvOp(env, C3D_Both, 0, 0, 0);
+	C3D_TexEnvOpRgb(env, 0, 0, 0);
 	C3D_TexEnvFunc(env, C3D_Both, GPU_REPLACE);
 }
 
@@ -154,7 +155,7 @@ void sf2d_bind_texture_color(const sf2d_texture *texture, GPU_TEXUNIT unit, u32 
 
 	C3D_TexEnv* env = C3D_GetTexEnv(0);
 	C3D_TexEnvSrc(env, C3D_Both, GPU_TEXTURE0, GPU_CONSTANT, 0);
-	C3D_TexEnvOp(env, C3D_Both, 0, 0, 0);
+	C3D_TexEnvOpRgb(env, 0, 0, 0);
 	C3D_TexEnvFunc(env, C3D_Both, GPU_MODULATE);
 	C3D_TexEnvColor(env, color);
 }
