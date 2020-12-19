@@ -1,8 +1,6 @@
 #include <string.h>
 #include "sf2d.h"
 #include "shader_shbin.h"
-#include "citro3d.h"
-
 
 static int sf2d_initialized = 0;
 // Temporary memory pool
