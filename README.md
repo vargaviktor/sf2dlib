@@ -13,3 +13,6 @@ Modified to compile with citro3d 1.4.0 or higher.
 
 ## Documentation (original documentation)
 http://xerpi.github.io/sf2dlib/html/sf2d_8h.html
+
+## Tutorial (unfinished)
+Available from [here](https://github.com/vargaviktor/sf2dlib/blob/master/Tutorial.MD)
